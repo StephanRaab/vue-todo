@@ -30,14 +30,14 @@ export default {
 
 <template>
     <div>
-        <input @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
+        <input type="text" @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
         <button @click="addTodo">Add Todo</button>
 
         <!-- 
         ~~1. add whatever is in the input to the todolist~~
         ~~2. do the same thing when hitting enter or the button~~
         ~~3. show todos in list on the screen~~
-        4. todos have state uncompleted|completed( completed will be greyed out and crossed through)
+        ~~4. todos have state uncompleted|completed( completed will be greyed out and crossed through)~~
         ~~5. todo can be deleted, removed from the todolist~~
         6. you can add a due date to a todo
         7. you can tag a todo with a color
@@ -46,33 +46,39 @@ export default {
         -->
     </div>
 
-    <label :class="{ 'completed': todo.completed }" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
-        <input type="checkbox" v-model="todo.completed">
-        {{ todo.name }}
+    <div class="todo" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+        <label :class="{ 'completed': todo.completed }">
+            <input type="checkbox" v-model="todo.completed">
+            {{ todo.name }}
+
+        </label>
         <button @click="deleteTodo(todoIndex)" class="deleteBtn">delete</button>
-    </label>
+    </div>
 </template>
 
 <style scoped>
 /* GENERIC OVERRIDES */
-input {
-    height: 34px;
+input[type='text'] {
+    padding: 10px;
     text-align: center;
-    margin-bottom: 1em;
 }
 
 button {
-    margin-left: 1em
+    margin-left: 1em;
 }
 
 label {
-    display: flex;
-    align-items: center;
     margin-bottom: .7em;
 }
 
 label>input {
     margin-right: 1em;
+}
+
+input[type='checkbox'] {
+
+    height: 20px;
+    width: 20px;
 }
 
 /* CLASSES */
@@ -82,5 +88,18 @@ label>input {
 
 .deleteBtn {
     background-color: rgb(129, 46, 46);
+}
+
+.todo {
+    padding: 1em;
+    border-radius: 10px 10px 10px 10px;
+    margin-top: 1.2em;
+    display: flex;
+    align-items: baseline;
+    width: 1000px;
+    justify-content: space-between;
+    background-color: #fbfcfd;
+    border: solid black 1px;
+    color: black
 }
 </style>
