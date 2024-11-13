@@ -1,12 +1,18 @@
-<script>
+<script setup>
 import { ref } from 'vue'
 
 let todos = ref(["eat food", "learn vue", "sleep"])
+
+const addTodo = () => {
+    // get value from input
+    console.log("button clicked")
+}
 </script>
 
 <template>
     <div>
-        <input placeholder="buy groceries"><button>Add Todo</button>
+        <input placeholder="buy groceries" v-model="todoInput">
+        <button @click="addTodo">Add Todo</button>
 
         <!-- 
         1. add whatever is in the input to the todolist
