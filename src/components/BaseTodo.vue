@@ -1,16 +1,20 @@
-<script setup>
-import { ref } from 'vue'
+<script>
+export default {
+    data() {
+        return {
+            todos: [],
+            todoInput: ''
+        }
+    },
+    methods: {
+        addTodo() {
+            if (this.todoInput.trim() === '') {
+                return
+            }
 
-let todos = ref([])
-
-const todoInput = ref('')
-
-const addTodo = () => {
-    if (todoInput.value.trim() === '') {
-        return
+            this.todos.push(this.todoInput)
+        }
     }
-
-    todos.value.push(todoInput.value)
 }
 </script>
 
@@ -20,7 +24,7 @@ const addTodo = () => {
         <button @click="addTodo">Add Todo</button>
 
         <!-- 
-        1. add whatever is in the input to the todolist
+        ~~1. add whatever is in the input to the todolist~~
         2. do the same thing when hitting enter or the button
         3. show todos in list on the screen
         4. todos have state uncompleted|completed( completed will be greyed out and crossed through)
@@ -30,7 +34,7 @@ const addTodo = () => {
         8. make todos draggable/change order
         -->
     </div>
-    
+
     <ol>
         <li v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
             {{ todo }}
