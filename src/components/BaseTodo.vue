@@ -4,7 +4,6 @@ export default {
         return {
             todos: [],
             todoInput: '',
-            isCompleted: false
         }
     },
     methods: {
@@ -19,7 +18,7 @@ export default {
                 return
             }
 
-            this.todos.push(this.todoInput)
+            this.todos.push({ name: this.todoInput, completed: false })
             this.todoInput = ''
         },
         deleteTodo(index) {
@@ -47,9 +46,9 @@ export default {
         -->
     </div>
 
-    <label :class="{ 'completed': isCompleted }" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
-        <input type="checkbox" v-model="isCompleted">
-        {{ todo }}
+    <label :class="{ 'completed': todo.completed }" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+        <input type="checkbox" v-model="todo.completed">
+        {{ todo.name }}
         <button @click="deleteTodo(todoIndex)" class="deleteBtn">delete</button>
     </label>
 </template>
