@@ -9,7 +9,13 @@ export default {
     },
     methods: {
         addTodo() {
-            if (this.todoInput.trim() === '') {
+            const input = this.todoInput.trim();
+
+            if (input === '') {
+                return
+            }
+            if (this.todos.includes(input)) {
+                window.alert(input + ' , already exists!');
                 return
             }
 
