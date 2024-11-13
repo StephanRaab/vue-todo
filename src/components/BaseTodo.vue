@@ -1,0 +1,37 @@
+<script>
+
+let todos = []
+
+</script>
+
+<template>
+    <div>
+        <input placeholder="buy groceries"><button>Add Todo</button>
+
+        <!-- 
+        1. add whatever is in the input to the todolist
+        2. do the same thing when hitting enter or the button
+        3. show todos in list on the screen
+        4. todos have state uncompleted|completed( completed will be greyed out and crossed through)
+        5. todo can be deleted, removed from the todolist
+        6. you can add a due date to a todo
+        7. you can tag a todo with a color
+        8. make todos draggable/change order
+        -->
+
+    </div>
+
+
+</template>
+
+<style scoped>
+
+input {
+    height: 34px;
+    text-align: center;
+}
+
+button{
+    margin-left: 1em
+}
+</style>
