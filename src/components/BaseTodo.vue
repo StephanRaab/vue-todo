@@ -1,7 +1,7 @@
 <script>
+import { ref } from 'vue'
 
-let todos = []
-
+let todos = ref(["eat food", "learn vue", "sleep"])
 </script>
 
 <template>
@@ -18,20 +18,22 @@ let todos = []
         7. you can tag a todo with a color
         8. make todos draggable/change order
         -->
-
     </div>
-
-
+    
+    <ol>
+        <li v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+            {{ todo }}
+        </li>
+    </ol>
 </template>
 
 <style scoped>
-
 input {
     height: 34px;
     text-align: center;
 }
 
-button{
+button {
     margin-left: 1em
 }
 </style>
