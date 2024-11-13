@@ -23,6 +23,9 @@ export default {
         },
         deleteTodo(index) {
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
+        },
+        toggleCompleted(index) {
+            this.todos[index].completed = !this.todos[index].completed
         }
     }
 }
@@ -46,7 +49,7 @@ export default {
         -->
     </div>
 
-    <div class="todo" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+    <div @click="toggleCompleted(todoIndex)" class="todo" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
         <label :class="{ 'completed': todo.completed }">
             <input type="checkbox" v-model="todo.completed">
             {{ todo.name }}
