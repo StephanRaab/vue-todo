@@ -13,7 +13,7 @@ export default {
             if (input === '') {
                 return
             }
-            if (this.todos.includes(input)) {
+            if (this.todos.find(e => e.name === input)) {
                 window.alert(input + ' , already exists!');
                 return
             }
@@ -34,7 +34,7 @@ export default {
 <template>
     <div>
         <input type="text" @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
-        <button @click="addTodo">Add Todo</button>
+        <button class="greenBtn" @click="addTodo">Add Todo</button>
 
         <!-- 
         ~~1. add whatever is in the input to the todolist~~
@@ -93,15 +93,19 @@ input[type='checkbox'] {
     background-color: rgb(129, 46, 46);
 }
 
+.greenBtn {
+    background-color: rgb(31, 161, 101);
+}
+
 .todo {
     padding: 1em;
     border-radius: 10px 10px 10px 10px;
-    margin-top: 1.2em;
+    margin-top: .8em;
     display: flex;
     align-items: baseline;
     width: 1000px;
     justify-content: space-between;
-    background-color: #fbfcfd;
+    background-color: #e5f0ef;
     border: solid black 1px;
     color: black
 }
