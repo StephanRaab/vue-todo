@@ -43,6 +43,7 @@ export default {
         6. you can add a due date to a todo
         7. you can tag a todo with a color
         8. make todos draggable/change order
+        ~~9. don't allow duplicates~~
         -->
     </div>
 
