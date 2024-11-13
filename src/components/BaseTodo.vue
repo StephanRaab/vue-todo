@@ -3,7 +3,8 @@ export default {
     data() {
         return {
             todos: [],
-            todoInput: ''
+            todoInput: '',
+            isCompleted: false
         }
     },
     methods: {
@@ -36,14 +37,14 @@ export default {
         -->
     </div>
 
-    <ol>
-        <li v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
-            {{ todo }}
-        </li>
-    </ol>
+    <label v-bind:class="(isCompleted) ? 'completed' : ''" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+        <input type="checkbox" v-model="isCompleted">
+        {{ todo }}
+    </label>
 </template>
 
 <style scoped>
+/* GENERIC OVERRIDES */
 input {
     height: 34px;
     text-align: center;
@@ -51,5 +52,19 @@ input {
 
 button {
     margin-left: 1em
+}
+
+label {
+    display: flex;
+    align-items: center;
+}
+
+label>input {
+    margin-right: 1em;
+}
+
+/* CLASSES */
+.completed {
+    text-decoration: line-through;
 }
 </style>
