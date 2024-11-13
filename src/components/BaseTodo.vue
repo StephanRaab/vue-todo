@@ -37,7 +37,7 @@ export default {
         -->
     </div>
 
-    <label v-bind:class="(isCompleted) ? 'completed' : ''" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+    <label :class="{ 'completed': isCompleted }" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
         <input type="checkbox" v-model="isCompleted">
         {{ todo }}
     </label>
