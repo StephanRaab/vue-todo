@@ -1,11 +1,16 @@
 <script setup>
 import { ref } from 'vue'
 
-let todos = ref(["eat food", "learn vue", "sleep"])
+let todos = ref([])
+
+const todoInput = ref('')
 
 const addTodo = () => {
-    // get value from input
-    console.log("button clicked")
+    if (todoInput.value.trim() === '') {
+        return
+    }
+
+    todos.value.push(todoInput.value)
 }
 </script>
 
