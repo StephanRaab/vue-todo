@@ -13,6 +13,7 @@ export default {
             }
 
             this.todos.push(this.todoInput)
+            this.todoInput = ''
         }
     }
 }
@@ -20,13 +21,13 @@ export default {
 
 <template>
     <div>
-        <input placeholder="buy groceries" v-model="todoInput">
+        <input @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
         <button @click="addTodo">Add Todo</button>
 
         <!-- 
         ~~1. add whatever is in the input to the todolist~~
-        2. do the same thing when hitting enter or the button
-        3. show todos in list on the screen
+        ~~2. do the same thing when hitting enter or the button~~
+        ~~3. show todos in list on the screen~~
         4. todos have state uncompleted|completed( completed will be greyed out and crossed through)
         5. todo can be deleted, removed from the todolist
         6. you can add a due date to a todo
