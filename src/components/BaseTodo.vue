@@ -4,7 +4,7 @@ export default {
         return {
             todos: [],
             todoInput: '',
-            id: 0,
+            draggingIndex: null
         }
     },
     methods: {
@@ -19,9 +19,8 @@ export default {
                 return
             }
 
-            this.todos.push({ id: this.id, name: this.todoInput, completed: false, list: 1 })
+            this.todos.push({ name: this.todoInput, completed: false})
             this.todoInput = ''
-            this.id = this.id + 1
         },
         deleteTodo(index) {
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
@@ -29,18 +28,18 @@ export default {
         toggleCompleted(index) {
             this.todos[index].completed = !this.todos[index].completed
         },
-        startDrag(event, todo) {
-            console.log(todo)
-            event.dataTransfer.dropEffect = 'move'
-            event.dataTransfer.effectAllowed = 'move'
-            event.dataTransfer.setData("todoId", todo.id)
+        startDrag(event, index) {
+            this.draggingIndex = index
+            event.dataTransfer.effectAllowed = 'move';
+            event.dataTransfer.setData('text/plain', index);
         },
-        onDrop(event, list) {
-            const todoId = event.dataTransfer.getData('todoId')
-            console.log("todoId: ", todoId)
-            const todo = this.todos.find(e => e.id === todoId)
-            console.log("todo: ", todo)
-            todo.list = list
+        onDrop(targetIndex) {
+            if (this.draggingIndex !== null) {
+                const draggedItem = this.todos[this.draggingIndex];
+                this.todos.splice(this.draggingIndex, 1);
+                this.todos.splice(targetIndex, 0, draggedItem);
+                this.draggingIndex = null;
+            }
         }
     }
 }
@@ -59,13 +58,13 @@ export default {
         ~~5. todo can be deleted, removed from the todolist~~
         6. you can add a due date to a todo
         7. you can tag a todo with a color
-        8. make todos draggable/change order
+        ~~8. make todos draggable/change order~~
         ~~9. don't allow duplicates~~
         -->
     </div>
 
-    <div v-if="todos.length" class="todoContainer" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent>
-        <div @dragstart="startDrag($event, todo)" 
+    <div v-if="todos.length" class="todoContainer" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
+        <div @dragstart="startDrag($event, todoIndex)" 
             draggable="true" 
             @click="toggleCompleted(todoIndex)" 
             class="todo" 
