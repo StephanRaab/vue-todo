@@ -4,6 +4,7 @@ export default {
         return {
             todos: [],
             todoInput: '',
+            id: 0,
         }
     },
     methods: {
@@ -18,14 +19,28 @@ export default {
                 return
             }
 
-            this.todos.push({ name: this.todoInput, completed: false })
+            this.todos.push({ id: this.id, name: this.todoInput, completed: false, list: 1 })
             this.todoInput = ''
+            this.id = this.id + 1
         },
         deleteTodo(index) {
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
         },
         toggleCompleted(index) {
             this.todos[index].completed = !this.todos[index].completed
+        },
+        startDrag(event, todo) {
+            console.log(todo)
+            event.dataTransfer.dropEffect = 'move'
+            event.dataTransfer.effectAllowed = 'move'
+            event.dataTransfer.setData("todoId", todo.id)
+        },
+        onDrop(event, list) {
+            const todoId = event.dataTransfer.getData('todoId')
+            console.log("todoId: ", todoId)
+            const todo = this.todos.find(e => e.id === todoId)
+            console.log("todo: ", todo)
+            todo.list = list
         }
     }
 }
@@ -49,14 +64,21 @@ export default {
         -->
     </div>
 
-    <div @click="toggleCompleted(todoIndex)" class="todo" v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
-        <label :class="{ 'completed': todo.completed }">
-            <input type="checkbox" v-model="todo.completed">
-            {{ todo.name }}
+    <div v-if="todos.length" class="todoContainer" @drop="onDrop($event, 1)" @dragenter.prevent @dragover.prevent>
+        <div @dragstart="startDrag($event, todo)" 
+            draggable="true" 
+            @click="toggleCompleted(todoIndex)" 
+            class="todo" 
+            v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+            <label :class="{ 'completed': todo.completed }">
+                <input type="checkbox" v-model="todo.completed">
+                {{ todo.name }}
 
-        </label>
-        <button @click="deleteTodo(todoIndex)" class="deleteBtn">delete</button>
+            </label>
+            <button @click="deleteTodo(todoIndex)" class="deleteBtn">delete</button>
+        </div>
     </div>
+    
 </template>
 
 <style scoped>
@@ -108,5 +130,11 @@ input[type='checkbox'] {
     background-color: #e5f0ef;
     border: solid black 1px;
     color: black
+}
+
+.todoContainer {
+    margin-top: 1em;
+    background-color: gray;
+    padding: 1em;    
 }
 </style>
