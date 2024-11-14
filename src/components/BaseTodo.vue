@@ -4,7 +4,9 @@ export default {
         return {
             todos: [],
             todoInput: '',
-            draggingIndex: null
+            draggingIndex: null,
+            tag: 'white',
+            showHiddenOptions: false
         }
     },
     methods: {
@@ -19,14 +21,16 @@ export default {
                 return
             }
 
-            this.todos.push({ name: this.todoInput, completed: false})
-            this.todoInput = ''
+            this.todos.push({ name: this.todoInput, completed: false, dueDate: null, tag: this.tag})
+            this.todoInput = '' //reset input to empty
         },
         deleteTodo(index) {
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
         },
-        toggleCompleted(index) {
-            this.todos[index].completed = !this.todos[index].completed
+        tagTodo(index) {
+            this.todos[index].tag = 'purple'
+            console.log(this.todos[index])
+
         },
         startDrag(event, index) {
             this.draggingIndex = index
@@ -40,6 +44,12 @@ export default {
                 this.todos.splice(targetIndex, 0, draggedItem);
                 this.draggingIndex = null;
             }
+        },
+        handleMouseEnter() {
+            this.showHiddenOptions = true;
+        },
+        handleMouseLeave() {
+            this.showHiddenOptions = false;
         }
     }
 }
@@ -64,17 +74,26 @@ export default {
     </div>
 
     <div v-if="todos.length" class="todoContainer" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
-        <div @dragstart="startDrag($event, todoIndex)" 
+        <div @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @dragstart="startDrag($event, todoIndex)" 
             draggable="true" 
-            @click="toggleCompleted(todoIndex)" 
-            class="todo" 
-            v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+            :class="{
+                'whiteTag': todo.tag === 'white', 
+                'redTag': todo.tag === 'red', 
+                'blueTag': todo.tag === 'blue', 
+                'greenTag': todo.tag === 'green', 
+                'purpleTag': todo.tag === 'purple',
+                'orangeTag': todo.tag === 'orange', todo}"
+                v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
             <label :class="{ 'completed': todo.completed }">
                 <input type="checkbox" v-model="todo.completed">
                 {{ todo.name }}
 
             </label>
-            <button @click="deleteTodo(todoIndex)" class="deleteBtn">delete</button>
+
+            <div v-if="showHiddenOptions">
+                <button @click="tagTodo(todoIndex)" class="tagBtn">tag</button>
+                <button @click="deleteTodo(todoIndex)" class="deleteBtn">delete</button>
+            </div>
         </div>
     </div>
     
@@ -126,7 +145,6 @@ input[type='checkbox'] {
     align-items: baseline;
     width: 1000px;
     justify-content: space-between;
-    background-color: #e5f0ef;
     border: solid black 1px;
     color: black
 }
@@ -135,5 +153,34 @@ input[type='checkbox'] {
     margin-top: 1em;
     background-color: gray;
     padding: 1em;    
+}
+
+.whiteTag {
+    background-color: white;
+}
+
+.redTag {
+    background-color: red;
+    color: white;
+}
+
+.blueTag {
+    background-color: blue;
+    color: white;
+}
+
+.greenTag {
+    background-color: green;
+    color: white
+}
+
+.purpleTag {
+    background-color: purple;
+    color: white;
+}
+
+.orangeTag {
+    background-color: orange;
+    color: white;
 }
 </style>
