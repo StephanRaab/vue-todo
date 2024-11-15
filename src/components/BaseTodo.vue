@@ -92,11 +92,13 @@ export default {
         ~~4. todos have state uncompleted|completed( completed will be greyed out and crossed through)~~
         ~~5. todo can be deleted, removed from the todolist~~
         6. you can add a due date to a todo
-        7. you can tag a todo with a color [IN PROGRESS]
+        ~~7. you can tag a todo with a color~~
         ~~8. make todos draggable/change order~~
         ~~9. don't allow duplicates~~
         ~~10. add todo to favs~~
-        11. toggle show favs
+        ~~11. toggle show favs~~
+        12. add pinia
+        13. convert app to use pinia store pattern
         -->
     </div>
 
@@ -119,7 +121,7 @@ export default {
                         <label>White</label>
                         <input v-model="todo.tag" type="radio" value="red">
                         <label>Red</label>
-                        <input v-model="todo.tag" class="blue" type="radio" value="blue">
+                        <input v-model="todo.tag" type="radio" value="blue">
                         <label>Blue</label>
                         <input v-model="todo.tag" type="radio" value="green">
                         <label>Green</label>
@@ -222,10 +224,6 @@ input[type='radio'].blue {
 
 .todo .fav {
     color: orange;
-}
-
-.todo i.active {
-    color: #ff005d;
 }
 
 .white-tag {
