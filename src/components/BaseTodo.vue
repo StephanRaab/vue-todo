@@ -53,7 +53,6 @@ export default {
             }
         },
         filterFavs() {
-            console.log(this.filter)
             this.filter = !this.filter
 
             if (this.filter) {
@@ -81,7 +80,6 @@ export default {
     <div>
         <input type="text" @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
         <button class="green-btn" @click="addTodo">Add Todo</button>
-
         <!-- 
         ~~1. add whatever is in the input to the todolist~~
         ~~2. do the same thing when hitting enter or the button~~
@@ -92,6 +90,8 @@ export default {
         7. you can tag a todo with a color [IN PROGRESS]
         ~~8. make todos draggable/change order~~
         ~~9. don't allow duplicates~~
+        ~~10. add todo to favs~~
+        11. toggle show favs
         -->
     </div>
 
@@ -136,7 +136,6 @@ label>input {
 }
 
 input[type='checkbox'] {
-
     height: 20px;
     width: 20px;
 }
