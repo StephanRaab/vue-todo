@@ -7,7 +7,8 @@ export default {
             draggingIndex: null,
             tag: 'white',
             totalTodos: 0,
-            filter: false,            
+            filter: false,    
+            todoBackup: []        
         }
     },
     methods: {
@@ -56,11 +57,10 @@ export default {
             this.filter = !this.filter
 
             if (this.filter) {
+                this.todoBackup = this.todos // save what was there before
                 this.todos = this.todos.filter(t => t.isFavorite)
-                console.log(this.todos)
             } else {
-                this.todos = this.todos
-                console.log(this.todos)
+                this.todos = this.todoBackup
             }                
         },
         toggleFav(index) {
