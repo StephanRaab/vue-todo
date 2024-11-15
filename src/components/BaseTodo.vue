@@ -6,6 +6,8 @@ export default {
             todoInput: '',
             draggingIndex: null,
             tag: 'white',
+            totalTodos: 0,
+            filter: 'all'
         }
     },
     methods: {
@@ -20,16 +22,22 @@ export default {
                 return
             }
 
-            this.todos.push({ name: this.todoInput, completed: false, dueDate: null, tag: this.tag })
+            this.todos.push({
+                name: this.todoInput,
+                completed: false,
+                dueDate: "no due date",
+                tag: this.tag,
+                isFavorite: false
+            })
             this.todoInput = '' //reset input to empty
+            this.totalTodos = this.totalTodos + 1
         },
         deleteTodo(index) {
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
+            this.totalTodos = this.totalTodos - 1
         },
         tagTodo(index) {
             this.todos[index].tag = 'purple'
-            console.log(this.todos[index])
-
         },
         startDrag(event, index) {
             this.draggingIndex = index
@@ -43,12 +51,25 @@ export default {
                 this.todos.splice(targetIndex, 0, draggedItem);
                 this.draggingIndex = null;
             }
-        },        
+        },
+        filterFavs() {
+            return this.todos.filter(t => t.isFavorite)
+        },
+        toggleFav(index) {
+            this.todos[index].isFavorite = !this.todos[index].isFavorite
+        }
     }
 }
 </script>
 
 <template>
+    <nav>
+        <button>All Todos</button>
+        <button @click="filterFavs">Favorite Tasks</button>
+    </nav>
+
+    <p>You have {{ totalTodos }} left to do.</p>
+
     <div>
         <input type="text" @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
         <button class="green-btn" @click="addTodo">Add Todo</button>
@@ -67,23 +88,19 @@ export default {
     </div>
 
     <div v-if="todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
-        <div v-for="todo, todoIndex in todos" 
-        :class="[
-                todo.tag + '-tag',
-                { todo }
-            ]" 
-        draggable="true"         
-        @dragstart="startDrag($event, todoIndex)"
-        :key="'todo' + todoIndex"
-        >
+        <div v-for="todo, todoIndex in todos" :class="[
+            todo.tag + '-tag',
+            { todo }
+        ]" draggable="true" @dragstart="startDrag($event, todoIndex)" :key="'todo' + todoIndex">
             <label :class="{ 'completed': todo.completed }">
                 <input type="checkbox" v-model="todo.completed">
                 {{ todo.name }}
             </label>
 
-            <div>
-                <button @click="tagTodo(todoIndex)" class="tag-btn">tag</button>
-                <button @click="deleteTodo(todoIndex)" class="delete-btn">delete</button>
+            <div class="icons">
+                <i class="material-icons" :class="{'fav': todo.isFavorite}" @click="toggleFav(todoIndex)">star</i>
+                <i class="material-icons" @click="tagTodo(todoIndex)">label</i>
+                <i class="material-icons" @click="deleteTodo(todoIndex)">delete</i>
             </div>
         </div>
     </div>
@@ -102,6 +119,7 @@ button {
 }
 
 label {
+    font-size: 1.2em;
     margin-bottom: .7em;
 }
 
@@ -133,17 +151,43 @@ input[type='checkbox'] {
     border-radius: 10px 10px 10px 10px;
     margin-top: .8em;
     display: flex;
-    align-items: baseline;
     width: 1000px;
-    justify-content: space-between;
     border: solid black 1px;
-    color: black
+    color: black;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .todo-container {
     margin-top: 1em;
     background-color: gray;
     padding: 1em;
+}
+
+.todo label,
+.todo .icons {
+    display: inline-block;
+}
+
+.todo .icons {
+    text-align: right;
+}
+
+.todo i {
+    font-size: 1.7em;
+    margin-left: 10px;
+    cursor: pointer;
+    color: #bbb;
+}
+
+.todo .fav {
+    color: orange;
+}
+
+.todo i.active {
+    color: #ff005d;
 }
 
 .white-tag {
