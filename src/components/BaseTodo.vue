@@ -7,7 +7,7 @@ export default {
             draggingIndex: null,
             tag: 'white',
             totalTodos: 0,
-            filter: 'all'
+            filter: false,            
         }
     },
     methods: {
@@ -53,7 +53,16 @@ export default {
             }
         },
         filterFavs() {
-            return this.todos.filter(t => t.isFavorite)
+            console.log(this.filter)
+            this.filter = !this.filter
+
+            if (this.filter) {
+                this.todos = this.todos.filter(t => t.isFavorite)
+                console.log(this.todos)
+            } else {
+                this.todos = this.todos
+                console.log(this.todos)
+            }                
         },
         toggleFav(index) {
             this.todos[index].isFavorite = !this.todos[index].isFavorite
@@ -63,9 +72,8 @@ export default {
 </script>
 
 <template>
-    <nav>
-        <button>All Todos</button>
-        <button @click="filterFavs">Favorite Tasks</button>
+    <nav>        
+        <button @click="filterFavs">Toggle Favs</button>
     </nav>
 
     <p>You have {{ totalTodos }} left to do.</p>
