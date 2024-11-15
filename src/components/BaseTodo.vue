@@ -6,7 +6,6 @@ export default {
             todoInput: '',
             draggingIndex: null,
             tag: 'white',
-            showHiddenOptions: false
         }
     },
     methods: {
@@ -21,7 +20,7 @@ export default {
                 return
             }
 
-            this.todos.push({ name: this.todoInput, completed: false, dueDate: null, tag: this.tag})
+            this.todos.push({ name: this.todoInput, completed: false, dueDate: null, tag: this.tag })
             this.todoInput = '' //reset input to empty
         },
         deleteTodo(index) {
@@ -44,13 +43,7 @@ export default {
                 this.todos.splice(targetIndex, 0, draggedItem);
                 this.draggingIndex = null;
             }
-        },
-        handleMouseEnter() {
-            this.showHiddenOptions = true;
-        },
-        handleMouseLeave() {
-            this.showHiddenOptions = false;
-        }
+        },        
     }
 }
 </script>
@@ -58,7 +51,7 @@ export default {
 <template>
     <div>
         <input type="text" @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
-        <button class="greenBtn" @click="addTodo">Add Todo</button>
+        <button class="green-btn" @click="addTodo">Add Todo</button>
 
         <!-- 
         ~~1. add whatever is in the input to the todolist~~
@@ -73,30 +66,28 @@ export default {
         -->
     </div>
 
-    <div v-if="todos.length" class="todoContainer" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
-        <div @mouseenter="handleMouseEnter" @mouseleave="handleMouseLeave" @dragstart="startDrag($event, todoIndex)" 
-            draggable="true" 
-            :class="{
-                'whiteTag': todo.tag === 'white', 
-                'redTag': todo.tag === 'red', 
-                'blueTag': todo.tag === 'blue', 
-                'greenTag': todo.tag === 'green', 
-                'purpleTag': todo.tag === 'purple',
-                'orangeTag': todo.tag === 'orange', todo}"
-                v-for="todo, todoIndex in todos" :key="'todo' + todoIndex">
+    <div v-if="todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
+        <div v-for="todo, todoIndex in todos" 
+        :class="[
+                todo.tag + '-tag',
+                { todo }
+            ]" 
+        draggable="true"         
+        @dragstart="startDrag($event, todoIndex)"
+        :key="'todo' + todoIndex"
+        >
             <label :class="{ 'completed': todo.completed }">
                 <input type="checkbox" v-model="todo.completed">
                 {{ todo.name }}
-
             </label>
 
-            <div v-if="showHiddenOptions">
-                <button @click="tagTodo(todoIndex)" class="tagBtn">tag</button>
-                <button @click="deleteTodo(todoIndex)" class="deleteBtn">delete</button>
+            <div>
+                <button @click="tagTodo(todoIndex)" class="tag-btn">tag</button>
+                <button @click="deleteTodo(todoIndex)" class="delete-btn">delete</button>
             </div>
         </div>
     </div>
-    
+
 </template>
 
 <style scoped>
@@ -129,11 +120,11 @@ input[type='checkbox'] {
     text-decoration: line-through;
 }
 
-.deleteBtn {
+.delete-btn {
     background-color: rgb(129, 46, 46);
 }
 
-.greenBtn {
+.green-btn {
     background-color: rgb(31, 161, 101);
 }
 
@@ -149,37 +140,37 @@ input[type='checkbox'] {
     color: black
 }
 
-.todoContainer {
+.todo-container {
     margin-top: 1em;
     background-color: gray;
-    padding: 1em;    
+    padding: 1em;
 }
 
-.whiteTag {
+.white-tag {
     background-color: white;
 }
 
-.redTag {
+.red-tag {
     background-color: red;
     color: white;
 }
 
-.blueTag {
+.blue-tag {
     background-color: blue;
     color: white;
 }
 
-.greenTag {
+.green-tag {
     background-color: green;
     color: white
 }
 
-.purpleTag {
+.purple-tag {
     background-color: purple;
     color: white;
 }
 
-.orangeTag {
+.orange-tag {
     background-color: orange;
     color: white;
 }
