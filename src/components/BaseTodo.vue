@@ -8,7 +8,8 @@ export default {
             tag: 'white',
             totalTodos: 0,
             filter: false,    
-            todoBackup: []        
+            todoBackup: [],
+            showTagTodo: false
         }
     },
     methods: {
@@ -28,7 +29,8 @@ export default {
                 completed: false,
                 dueDate: "no due date",
                 tag: this.tag,
-                isFavorite: false
+                isFavorite: false,
+                showTagOptions: false
             })
             this.todoInput = '' //reset input to empty
             this.totalTodos = this.totalTodos + 1
@@ -57,7 +59,7 @@ export default {
             this.filter = !this.filter
 
             if (this.filter) {
-                this.todoBackup = this.todos // save what was there before
+                this.todoBackup = this.todos // store what was there before
                 this.todos = this.todos.filter(t => t.isFavorite)
             } else {
                 this.todos = this.todoBackup
@@ -65,6 +67,9 @@ export default {
         },
         toggleFav(index) {
             this.todos[index].isFavorite = !this.todos[index].isFavorite
+        },
+        toggleTagTodo(index) {
+            this.todos[index].showTagOptions = !this.todos[index].showTagOptions
         }
     }
 }
@@ -107,12 +112,29 @@ export default {
 
             <div class="icons">
                 <i class="material-icons" :class="{'fav': todo.isFavorite}" @click="toggleFav(todoIndex)">star</i>
-                <i class="material-icons" @click="tagTodo(todoIndex)">label</i>
+
+                <div class="tag-container">
+                    <div v-if="todo.showTagOptions">
+                        <input v-model="todo.tag" type="radio" value="white" checked="checked">
+                        <label>White</label>
+                        <input v-model="todo.tag" type="radio" value="red">
+                        <label>Red</label>
+                        <input v-model="todo.tag" class="blue" type="radio" value="blue">
+                        <label>Blue</label>
+                        <input v-model="todo.tag" type="radio" value="green">
+                        <label>Green</label>
+                        <input v-model="todo.tag" type="radio" value="purple">
+                        <label>Purple</label>
+                        <input v-model="todo.tag" type="radio" value="orange">
+                        <label>Orange</label>
+                    </div>
+                    <i class="material-icons" @click="toggleTagTodo(todoIndex)">label</i>                    
+                </div>
+                
                 <i class="material-icons" @click="deleteTodo(todoIndex)">delete</i>
             </div>
         </div>
     </div>
-
 </template>
 
 <style scoped>
@@ -138,6 +160,15 @@ label>input {
 input[type='checkbox'] {
     height: 20px;
     width: 20px;
+}
+
+input[type='radio'] {
+    height: 20px;
+    width: 20px;
+}
+
+input[type='radio'].blue {
+    background-color: blue;
 }
 
 /* CLASSES */
@@ -223,6 +254,10 @@ input[type='checkbox'] {
 
 .orange-tag {
     background-color: orange;
-    color: white;
+    color: black;
+}
+
+.tag-container {
+    display: inline-flex;
 }
 </style>
