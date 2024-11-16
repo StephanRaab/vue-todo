@@ -16,12 +16,12 @@
 export default {
     data() {
         return {
-            todos: [],
+            todos: [], // const [todos, setTodos] = useState([])
             todoInput: '',
             draggingIndex: null,
             tag: 'white',
             totalTodos: 0,
-            filter: false,    
+            filter: false,
             todoBackup: [],
             showTagTodo: false
         }
@@ -116,7 +116,7 @@ export default {
 
                 <div class="tag-container">
                     <div v-if="todo.showTagOptions">
-                        <input v-model="todo.tag" type="radio" value="white" checked="checked">
+                        <input v-model="todo.tag" type="radio" value="white">
                         <label>White</label>
                         <input v-model="todo.tag" type="radio" value="red">
                         <label>Red</label>
