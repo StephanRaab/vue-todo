@@ -1,4 +1,18 @@
-<script>
+<script>         
+// ~~1. add whatever is in the input to the todolist~~
+// ~~2. do the same thing when hitting enter or the button~~
+// ~~3. show todos in list on the screen~~
+// ~~4. todos have state uncompleted|completed( completed will be greyed out and crossed through)~~
+// ~~5. todo can be deleted, removed from the todolist~~
+// 6. you can add a due date to a todo
+// ~~7. you can tag a todo with a color~~
+// ~~8. make todos draggable/change order~~
+// ~~9. don't allow duplicates~~
+// ~~10. add todo to favs~~
+// ~~11. toggle show favs~~
+// 12. add pinia
+// 13. convert app to use pinia store pattern
+        
 export default {
     data() {
         return {
@@ -85,21 +99,6 @@ export default {
     <div>
         <input type="text" @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
         <button class="green-btn" @click="addTodo">Add Todo</button>
-        <!-- 
-        ~~1. add whatever is in the input to the todolist~~
-        ~~2. do the same thing when hitting enter or the button~~
-        ~~3. show todos in list on the screen~~
-        ~~4. todos have state uncompleted|completed( completed will be greyed out and crossed through)~~
-        ~~5. todo can be deleted, removed from the todolist~~
-        6. you can add a due date to a todo
-        ~~7. you can tag a todo with a color~~
-        ~~8. make todos draggable/change order~~
-        ~~9. don't allow duplicates~~
-        ~~10. add todo to favs~~
-        ~~11. toggle show favs~~
-        12. add pinia
-        13. convert app to use pinia store pattern
-        -->
     </div>
 
     <div v-if="todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
@@ -231,27 +230,27 @@ input[type='radio'].blue {
 }
 
 .red-tag {
-    background-color: red;
+    background-color: #f48698;
     color: white;
 }
 
 .blue-tag {
-    background-color: blue;
+    background-color: #86cef4;
     color: white;
 }
 
 .green-tag {
-    background-color: green;
+    background-color: #7ed779;
     color: white
 }
 
 .purple-tag {
-    background-color: purple;
+    background-color: #d38ffe;
     color: white;
 }
 
 .orange-tag {
-    background-color: orange;
+    background-color: #ffc066;
     color: black;
 }
 
