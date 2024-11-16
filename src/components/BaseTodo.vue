@@ -158,18 +158,9 @@ label>input {
     margin-right: 1em;
 }
 
-input[type='checkbox'] {
+input[type='checkbox'], input[type='radio'] {
     height: 20px;
     width: 20px;
-}
-
-input[type='radio'] {
-    height: 20px;
-    width: 20px;
-}
-
-input[type='radio'].blue {
-    background-color: blue;
 }
 
 /* CLASSES */
