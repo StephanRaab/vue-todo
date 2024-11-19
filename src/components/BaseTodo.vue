@@ -46,7 +46,7 @@ export default {
             { todo }
         ]" draggable="true" @dragstart="startDrag($event, todoIndex)" :key="'todo' + todoIndex">
             <label :class="{ 'completed': todo.completed }">
-                <input type="checkbox" v-model="todo.completed">
+                <input type="checkbox" v-model="todo.completed" @change="store.markTodoDone($event)">
                 {{ todo.name }}
             </label>
 

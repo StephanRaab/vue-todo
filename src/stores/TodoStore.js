@@ -38,6 +38,15 @@ export const useTodoStore = defineStore('todoStore', {
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
             this.totalTodos = this.totalTodos - 1
         },
+        markTodoDone(event) {
+            console.log(event.srcElement.checked)
+            if (event.srcElement.checked) {
+                this.totalTodos = this.totalTodos - 1
+            } else {
+                this.totalTodos = this.totalTodos + 1
+            }
+            
+        },
         tagTodo(index) {
             this.todos[index].tag = 'purple'
         },
