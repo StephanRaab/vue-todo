@@ -39,7 +39,6 @@ export const useTodoStore = defineStore('todoStore', {
             this.totalTodos = this.totalTodos - 1
         },
         markTodoDone(event) {
-            console.log(event.srcElement.checked)
             if (event.srcElement.checked) {
                 this.totalTodos = this.totalTodos - 1
             } else {
