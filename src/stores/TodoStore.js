@@ -9,9 +9,20 @@ export const useTodoStore = defineStore('todoStore', {
         totalTodos: 0,
         filter: false,
         todoBackup: [],
-        showTagTodo: false
+        showTagTodo: false,
+        isLoading: false
     }),
     actions: {
+        async getTodos() {
+            this.isLoading = true
+            const res = await fetch('http://localhost:3000/todos')
+            const data = await res.json()
+
+            console.log("data from json", data)
+
+            this.todos = data
+            this.isLoading = false
+        },
         addTodo() {
             const input = this.todoInput.trim();
 
@@ -31,6 +42,7 @@ export const useTodoStore = defineStore('todoStore', {
                 isFavorite: false,
                 showTagOptions: false
             })
+            console.log(this.todos)
             this.todoInput = '' //reset input to empty
             this.totalTodos = this.totalTodos + 1
         },

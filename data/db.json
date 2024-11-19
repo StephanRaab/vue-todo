@@ -1,0 +1,20 @@
+{
+    "todos": [
+        {
+            "completed": false,
+            "dueDate": "no due date",
+            "isFavorite": false,
+            "name": "learn vue",
+            "showTagOptions": false,
+            "tag": "white"
+        },
+        {
+            "completed": false,
+            "dueDate": "no due date",
+            "isFavorite": false,
+            "name": "learn pinia",
+            "showTagOptions": false,
+            "tag": "white"
+        }
+    ]
+}

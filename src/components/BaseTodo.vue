@@ -23,7 +23,7 @@ export default {
         }
     },
     computed: {
-        ...mapStores(useTodoStore)
+        ...mapStores(useTodoStore)      
     }
 }
 </script>
@@ -33,6 +33,9 @@ export default {
         <button @click="store.filterFavs">Toggle Favs</button>
     </nav>
 
+    <!-- loading -->
+     <div class="loading" v-if="store.isLoading">Loading todos....</div>
+
     <p>You have {{ store.totalTodos }} left to do.</p>
 
     <div>
@@ -41,7 +44,7 @@ export default {
     </div>
 
     <div v-if="store.todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
-        <div v-for="todo, todoIndex in store.todos" :class="[
+        <div v-for="todo, todoIndex in store.getTodos" :class="[
             todo.tag + '-tag',
             { todo }
         ]" draggable="true" @dragstart="startDrag($event, todoIndex)" :key="'todo' + todoIndex">
