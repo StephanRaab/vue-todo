@@ -1,4 +1,7 @@
-<script>         
+<script>
+import { mapStores } from 'pinia';
+import { useTodoStore } from '../stores/TodoStore';
+
 // ~~1. add whatever is in the input to the todolist~~
 // ~~2. do the same thing when hitting enter or the button~~
 // ~~3. show todos in list on the screen~~
@@ -10,99 +13,35 @@
 // ~~9. don't allow duplicates~~
 // ~~10. add todo to favs~~
 // ~~11. toggle show favs~~
-// 12. add pinia
-// 13. convert app to use pinia store pattern
+// ~~12. add pinia~~
+// ~~13. convert app to use pinia store pattern)~~
         
 export default {
     data() {
         return {
-            todos: [], // const [todos, setTodos] = useState([])
-            todoInput: '',
-            draggingIndex: null,
-            tag: 'white',
-            totalTodos: 0,
-            filter: false,
-            todoBackup: [],
-            showTagTodo: false
+            store: useTodoStore()
         }
     },
-    methods: {
-        addTodo() {
-            const input = this.todoInput.trim();
-
-            if (input === '') {
-                return
-            }
-            if (this.todos.find(e => e.name === input)) {
-                window.alert(input + ' , already exists!');
-                return
-            }
-
-            this.todos.push({
-                name: this.todoInput,
-                completed: false,
-                dueDate: "no due date",
-                tag: this.tag,
-                isFavorite: false,
-                showTagOptions: false
-            })
-            this.todoInput = '' //reset input to empty
-            this.totalTodos = this.totalTodos + 1
-        },
-        deleteTodo(index) {
-            this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
-            this.totalTodos = this.totalTodos - 1
-        },
-        tagTodo(index) {
-            this.todos[index].tag = 'purple'
-        },
-        startDrag(event, index) {
-            this.draggingIndex = index
-            event.dataTransfer.effectAllowed = 'move';
-            event.dataTransfer.setData('text/plain', index);
-        },
-        onDrop(targetIndex) {
-            if (this.draggingIndex !== null) {
-                const draggedItem = this.todos[this.draggingIndex];
-                this.todos.splice(this.draggingIndex, 1);
-                this.todos.splice(targetIndex, 0, draggedItem);
-                this.draggingIndex = null;
-            }
-        },
-        filterFavs() {
-            this.filter = !this.filter
-
-            if (this.filter) {
-                this.todoBackup = this.todos // store what was there before
-                this.todos = this.todos.filter(t => t.isFavorite)
-            } else {
-                this.todos = this.todoBackup
-            }                
-        },
-        toggleFav(index) {
-            this.todos[index].isFavorite = !this.todos[index].isFavorite
-        },
-        toggleTagTodo(index) {
-            this.todos[index].showTagOptions = !this.todos[index].showTagOptions
-        }
+    computed: {
+        ...mapStores(useTodoStore)
     }
 }
 </script>
 
 <template>
     <nav>        
-        <button @click="filterFavs">Toggle Favs</button>
+        <button @click="store.filterFavs">Toggle Favs</button>
     </nav>
 
-    <p>You have {{ totalTodos }} left to do.</p>
+    <p>You have {{ store.totalTodos }} left to do.</p>
 
     <div>
-        <input type="text" @keyup.enter="addTodo" placeholder="buy groceries" v-model="todoInput">
-        <button class="green-btn" @click="addTodo">Add Todo</button>
+        <input type="text" @keyup.enter="store.addTodo" placeholder="buy groceries" v-model="store.todoInput">
+        <button class="green-btn" @click="store.addTodo">Add Todo</button>
     </div>
 
-    <div v-if="todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
-        <div v-for="todo, todoIndex in todos" :class="[
+    <div v-if="store.todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
+        <div v-for="todo, todoIndex in store.todos" :class="[
             todo.tag + '-tag',
             { todo }
         ]" draggable="true" @dragstart="startDrag($event, todoIndex)" :key="'todo' + todoIndex">
@@ -112,7 +51,7 @@ export default {
             </label>
 
             <div class="icons">
-                <i class="material-icons" :class="{'fav': todo.isFavorite}" @click="toggleFav(todoIndex)">star</i>
+                <i class="material-icons" :class="{'fav': todo.isFavorite}" @click="store.toggleFav(todoIndex)">star</i>
 
                 <div class="tag-container">
                     <div v-if="todo.showTagOptions">
@@ -129,10 +68,10 @@ export default {
                         <input v-model="todo.tag" type="radio" value="orange">
                         <label>Orange</label>
                     </div>
-                    <i class="material-icons" @click="toggleTagTodo(todoIndex)">label</i>                    
+                    <i class="material-icons" @click="store.toggleTagTodo(todoIndex)">label</i>                    
                 </div>
                 
-                <i class="material-icons" @click="deleteTodo(todoIndex)">delete</i>
+                <i class="material-icons" @click="store.deleteTodo(todoIndex)">delete</i>
             </div>
         </div>
     </div>
