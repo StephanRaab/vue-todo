@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { watch } from 'vue';
 
 export const useTodoStore = defineStore('todoStore', {
     state: () => ({
@@ -12,7 +13,11 @@ export const useTodoStore = defineStore('todoStore', {
         showTagTodo: false,
         isLoading: false
     }),
+    watch: {
+
+    },
     actions: {
+        // actions are called methods in the component
         async getTodos() {
             this.isLoading = true
             const res = await fetch('http://localhost:3000/todos')

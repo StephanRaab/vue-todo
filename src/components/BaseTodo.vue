@@ -24,6 +24,11 @@ export default {
     },
     computed: {
         ...mapStores(useTodoStore)      
+    },
+    created() {
+        //In the Options API, the created hook is the equivalent of onMounted in the Composition API. This is where you'll access the store and perform any initialization tasks.
+        // here we want to load todos from localstorage
+        this.store.todos = localStorage.getItem('todos') || []
     }
 }
 </script>
