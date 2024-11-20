@@ -12,18 +12,17 @@ export const useTodoStore = defineStore('todoStore', {
         showTagTodo: false,
         isLoading: false
     }),
-    mounted() {
-        const storedTodos = localStorage.getItem('todos');
-        if (storedTodos) {
-          this.todos = JSON.parse(storedTodos)
-        }
-      },
-      watch: {
-        'todoStore.todos': () => {
-            localStorage.setItem('todos', JSON.stringify(this.todos));
-        }
-      },
     actions: {
+        getLocalStoredTodos() {
+            const storedTodos = localStorage.getItem('todos');
+            if (storedTodos) {
+                this.todos = JSON.parse(storedTodos)
+                this.totalTodos = this.todos.filter(todo => !todo.completed).length;                
+            }
+        },
+        setLocalTodoStore() {
+            localStorage.setItem('todos', JSON.stringify(this.todos));
+        },
         // actions are called methods in the component
         addTodo() {
             const input = this.todoInput.trim();
@@ -46,20 +45,23 @@ export const useTodoStore = defineStore('todoStore', {
             })
             this.todoInput = '' //reset input to empty
             this.totalTodos = this.totalTodos + 1
+            this.setLocalTodoStore()      
         },
         deleteTodo(index) {
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
             this.totalTodos = this.totalTodos - 1
+            this.setLocalTodoStore()
         },
         markTodoDone(event) {
             if (event.srcElement.checked) {
                 this.totalTodos = this.totalTodos - 1
             } else {
                 this.totalTodos = this.totalTodos + 1
-            }            
+            }
+            this.setLocalTodoStore()      
         },
         tagTodo(index) {
-            this.todos[index].tag = 'purple'
+            this.setLocalTodoStore()
         },
         startDrag(event, index) {
             this.draggingIndex = index
@@ -86,9 +88,11 @@ export const useTodoStore = defineStore('todoStore', {
         },
         toggleFav(index) {
             this.todos[index].isFavorite = !this.todos[index].isFavorite
+            this.setLocalTodoStore()
         },
         toggleTagTodo(index) {
             this.todos[index].showTagOptions = !this.todos[index].showTagOptions
+            this.setLocalTodoStore()
         }
     }
 })

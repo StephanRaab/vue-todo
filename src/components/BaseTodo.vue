@@ -25,6 +25,11 @@ export default {
     },
     computed: {
         ...mapStores(useTodoStore)      
+    },
+    created() {
+        // run pinia action to load localstorage into state  
+        const todoStore = useTodoStore()      
+        todoStore.getLocalStoredTodos()
     }
 }
 </script>
@@ -59,17 +64,17 @@ export default {
 
                 <div class="tag-container">
                     <div v-if="todo.showTagOptions">
-                        <input v-model="todo.tag" type="radio" value="white">
+                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="white">
                         <label>White</label>
-                        <input v-model="todo.tag" type="radio" value="red">
+                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="red">
                         <label>Red</label>
-                        <input v-model="todo.tag" type="radio" value="blue">
+                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="blue">
                         <label>Blue</label>
-                        <input v-model="todo.tag" type="radio" value="green">
+                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="green">
                         <label>Green</label>
-                        <input v-model="todo.tag" type="radio" value="purple">
+                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="purple">
                         <label>Purple</label>
-                        <input v-model="todo.tag" type="radio" value="orange">
+                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="orange">
                         <label>Orange</label>
                     </div>
                     <i class="material-icons" @click="store.toggleTagTodo(todoIndex)">label</i>                    
