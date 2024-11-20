@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia';
-import { watch } from 'vue';
 
 export const useTodoStore = defineStore('todoStore', {
     state: () => ({
@@ -13,21 +12,19 @@ export const useTodoStore = defineStore('todoStore', {
         showTagTodo: false,
         isLoading: false
     }),
-    watch: {
-
-    },
+    mounted() {
+        const storedTodos = localStorage.getItem('todos');
+        if (storedTodos) {
+          this.todos = JSON.parse(storedTodos)
+        }
+      },
+      watch: {
+        'todoStore.todos': () => {
+            localStorage.setItem('todos', JSON.stringify(this.todos));
+        }
+      },
     actions: {
         // actions are called methods in the component
-        async getTodos() {
-            this.isLoading = true
-            const res = await fetch('http://localhost:3000/todos')
-            const data = await res.json()
-
-            console.log("data from json", data)
-
-            this.todos = data
-            this.isLoading = false
-        },
         addTodo() {
             const input = this.todoInput.trim();
 
@@ -47,7 +44,6 @@ export const useTodoStore = defineStore('todoStore', {
                 isFavorite: false,
                 showTagOptions: false
             })
-            console.log(this.todos)
             this.todoInput = '' //reset input to empty
             this.totalTodos = this.totalTodos + 1
         },
@@ -60,8 +56,7 @@ export const useTodoStore = defineStore('todoStore', {
                 this.totalTodos = this.totalTodos - 1
             } else {
                 this.totalTodos = this.totalTodos + 1
-            }
-            
+            }            
         },
         tagTodo(index) {
             this.todos[index].tag = 'purple'

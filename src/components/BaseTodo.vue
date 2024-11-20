@@ -15,6 +15,7 @@ import { useTodoStore } from '../stores/TodoStore';
 // ~~11. toggle show favs~~
 // ~~12. add pinia~~
 // ~~13. convert app to use pinia store pattern)~~
+// 14. when item is completed, it should go to the bottom of the list
         
 export default {
     data() {
@@ -24,11 +25,6 @@ export default {
     },
     computed: {
         ...mapStores(useTodoStore)      
-    },
-    created() {
-        //In the Options API, the created hook is the equivalent of onMounted in the Composition API. This is where you'll access the store and perform any initialization tasks.
-        // here we want to load todos from localstorage
-        this.store.todos = localStorage.getItem('todos') || []
     }
 }
 </script>
@@ -49,7 +45,7 @@ export default {
     </div>
 
     <div v-if="store.todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
-        <div v-for="todo, todoIndex in store.getTodos" :class="[
+        <div v-for="todo, todoIndex in store.todos" :class="[
             todo.tag + '-tag',
             { todo }
         ]" draggable="true" @dragstart="startDrag($event, todoIndex)" :key="'todo' + todoIndex">
