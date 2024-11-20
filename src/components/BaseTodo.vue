@@ -16,6 +16,7 @@ import { useTodoStore } from '../stores/TodoStore';
 // ~~12. add pinia~~
 // ~~13. convert app to use pinia store pattern)~~
 // 14. when item is completed, it should go to the bottom of the list
+// ~~15. use localstorage~~
         
 export default {
     data() {
