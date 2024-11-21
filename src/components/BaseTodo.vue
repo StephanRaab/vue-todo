@@ -58,7 +58,7 @@ export default {
     </div>
 
 
-    <div v-if="store.todos.length" class="todo-container" @drop="store.onDrop(todoIndex)" @dragenter.prevent
+    <div v-if="store.todos.length" @drop="store.onDrop(todoIndex)" @dragenter.prevent
         @dragover.prevent>
         <div v-for="todo, todoIndex in store.todos" :class="[
             todo.tag + '-tag',
