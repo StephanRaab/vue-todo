@@ -11,6 +11,7 @@ export const useTodoStore = defineStore('todoStore', {
         todoBackup: [],
         showTagTodo: false,
         isLoading: false,
+        darkmode: false
     }),
     actions: {
         toggleDarkmode() {                
@@ -19,9 +20,11 @@ export const useTodoStore = defineStore('todoStore', {
             if (this.darkmode) {
                 document.body.classList.remove("light-mode")
                 document.body.classList.add("dark-mode")
+                localStorage.setItem("theme", "dark");
             } else {
                 document.body.classList.remove("dark-mode")
                 document.body.classList.add("light-mode")
+                localStorage.setItem("theme", "light");
             }    
         },
         getLocalStoredTodos() {
@@ -29,6 +32,16 @@ export const useTodoStore = defineStore('todoStore', {
             if (storedTodos) {
                 this.todos = JSON.parse(storedTodos)
                 this.totalTodos = this.todos.filter(todo => !todo.completed).length;                
+            }
+        },
+        checkTheme() {
+            const theme = localStorage.getItem('theme');
+            if (theme === 'dark') {
+                this.darkmode = true;
+                document.body.classList.add("dark-mode");
+            } else {
+                this.darkmode = false;
+                document.body.classList.add("light-mode");
             }
         },
         setLocalTodoStore() {

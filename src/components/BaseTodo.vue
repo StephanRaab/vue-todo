@@ -29,8 +29,9 @@ export default {
     },
     created() {
         // run pinia action to load localstorage into state  
-        const todoStore = useTodoStore()
-        todoStore.getLocalStoredTodos()
+        const todoStore = useTodoStore();
+        todoStore.getLocalStoredTodos();
+        todoStore.checkTheme();
     }
 }
 </script>
