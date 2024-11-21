@@ -10,9 +10,12 @@ export const useTodoStore = defineStore('todoStore', {
         filter: false,
         todoBackup: [],
         showTagTodo: false,
-        isLoading: false
+        isLoading: false,
     }),
     actions: {
+        toggleDarkmode() {
+            this.darkmode = !this.darkmode
+        },
         getLocalStoredTodos() {
             const storedTodos = localStorage.getItem('todos');
             if (storedTodos) {

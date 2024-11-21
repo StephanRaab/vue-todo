@@ -17,7 +17,7 @@ import { useTodoStore } from '../stores/TodoStore';
 // ~~13. convert app to use pinia store pattern)~~
 // 14. when item is completed, it should go to the bottom of the list
 // ~~15. use localstorage~~
-        
+
 export default {
     data() {
         return {
@@ -25,32 +25,35 @@ export default {
         }
     },
     computed: {
-        ...mapStores(useTodoStore)      
+        ...mapStores(useTodoStore)
     },
     created() {
         // run pinia action to load localstorage into state  
-        const todoStore = useTodoStore()      
+        const todoStore = useTodoStore()
         todoStore.getLocalStoredTodos()
     }
 }
 </script>
 
 <template>
-    <nav>        
-        <button @click="store.filterFavs">Toggle Favs</button>
+    <nav>
+        <button class="filter-btn" @click="store.filterFavs">Toggle Favs</button>
     </nav>
 
     <!-- loading -->
-     <div class="loading" v-if="store.isLoading">Loading todos....</div>
+    <div class="loading" v-if="store.isLoading">Loading todos....</div>
 
-    <p>You have {{ store.totalTodos }} left to do.</p>
+    <div class="header">
+        <p>You have {{ store.totalTodos }} left to do.</p>
 
-    <div>
-        <input type="text" @keyup.enter="store.addTodo" placeholder="buy groceries" v-model="store.todoInput">
-        <button class="green-btn" @click="store.addTodo">Add Todo</button>
+        <div class="input-container">
+            <input type="text" @keyup.enter="store.addTodo" placeholder="add todos..." v-model="store.todoInput">
+            <button class="green-btn" @click="store.addTodo">Add Todo</button>
+        </div>
     </div>
 
-    <div v-if="store.todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent @dragover.prevent>
+    <div v-if="store.todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent
+        @dragover.prevent>
         <div v-for="todo, todoIndex in store.todos" :class="[
             todo.tag + '-tag',
             { todo }
@@ -61,7 +64,7 @@ export default {
             </label>
 
             <div class="icons">
-                <i class="material-icons" :class="{'fav': todo.isFavorite}" @click="store.toggleFav(todoIndex)">star</i>
+                <i class="material-icons" :class="{ 'fav': todo.isFavorite }" @click="store.toggleFav(todoIndex)">star</i>
 
                 <div class="tag-container">
                     <div v-if="todo.showTagOptions">
@@ -75,12 +78,12 @@ export default {
                         <label>Green</label>
                         <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="purple">
                         <label>Purple</label>
-                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="orange">
-                        <label>Orange</label>
+                        <input @change="store.tagTodo()" v-model="todo.tag" type="radio" value="yellow">
+                        <label>Yellow</label>
                     </div>
-                    <i class="material-icons" @click="store.toggleTagTodo(todoIndex)">label</i>                    
+                    <i class="material-icons" @click="store.toggleTagTodo(todoIndex)">label</i>
                 </div>
-                
+
                 <i class="material-icons" @click="store.deleteTodo(todoIndex)">delete</i>
             </div>
         </div>
@@ -88,67 +91,77 @@ export default {
 </template>
 
 <style scoped>
-/* GENERIC OVERRIDES */
-input[type='text'] {
-    padding: 10px;
-    text-align: center;
-}
 
 button {
-    margin-left: 1em;
+    transition: 0.3s;
+    cursor: pointer;
 }
 
-label {
-    font-size: 1.2em;
-    margin-bottom: .7em;
+button:hover {
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
-label>input {
-    margin-right: 1em;
+nav {
+    display: flex;
+    justify-content: flex-end;
 }
 
-input[type='checkbox'], input[type='radio'] {
-    height: 20px;
-    width: 20px;
+p {
+    font-size: 1.5rem;
 }
 
-/* CLASSES */
-.completed {
-    text-decoration: line-through;
+.filter-btn {
+    background-color: #18232c;
+    padding: .8em;
+    text-transform: uppercase;
+    margin: 1rem;
+    cursor: pointer;
+    color: #ffffff;
 }
 
-.delete-btn {
-    background-color: rgb(129, 46, 46);
+.filter-btn:hover {
+    background-color: #465f78;
 }
 
 .green-btn {
     background-color: rgb(31, 161, 101);
+    color: #ffffff;
+    margin-left: 1rem;
+    padding: 1rem;
 }
+
+.header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.completed {
+    text-decoration: line-through;
+}
+
+
 
 .todo {
     padding: 1em;
     border-radius: 10px 10px 10px 10px;
     margin-top: .8em;
     display: flex;
-    width: 1000px;
-    border: solid black 1px;
-    color: black;
-    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.05);
-    display: flex;
     justify-content: space-between;
     align-items: center;
     width: auto;
-}
-
-.todo-container {
-    margin-top: 1em;
-    background-color: gray;
-    padding: 1em;
+    box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
 }
 
 .todo label,
 .todo .icons {
     display: inline-block;
+    cursor: pointer;
+    color: #343446;
+}
+
+label {
+    font-size: 1.25rem;
 }
 
 .todo .icons {
@@ -158,8 +171,6 @@ input[type='checkbox'], input[type='radio'] {
 .todo i {
     font-size: 1.7em;
     margin-left: 10px;
-    cursor: pointer;
-    color: #bbb;
 }
 
 .todo .fav {
@@ -167,32 +178,27 @@ input[type='checkbox'], input[type='radio'] {
 }
 
 .white-tag {
-    background-color: white;
+    background-color: #ffffff;
 }
 
 .red-tag {
-    background-color: #f48698;
-    color: white;
+    background-color: #f47aa2;
 }
 
 .blue-tag {
-    background-color: #86cef4;
-    color: white;
+    background-color: #a7cbff;
 }
 
 .green-tag {
-    background-color: #7ed779;
-    color: white
+    background-color: #7bc3bf;
 }
 
 .purple-tag {
-    background-color: #d38ffe;
-    color: white;
+    background-color: #ab6edd;
 }
 
-.orange-tag {
-    background-color: #ffc066;
-    color: black;
+.yellow-tag {
+    background-color: #f7db60;
 }
 
 .tag-container {
