@@ -58,7 +58,7 @@ export default {
     </div>
 
 
-    <div v-if="store.todos.length" @drop="store.onDrop(todoIndex)" @dragenter.prevent
+    <div class="todo-container" v-if="store.todos.length" @drop="store.onDrop(todoIndex)" @dragenter.prevent
         @dragover.prevent>
         <div v-for="todo, todoIndex in store.todos" :class="[
             todo.tag + '-tag',
@@ -154,6 +154,13 @@ export default {
         text-decoration: line-through;
     }
 
+    .todo-container {
+        margin-top: 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .todo {
         padding: 1em;
         border-radius: 10px 10px 10px 10px;
@@ -161,7 +168,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: auto;
+        width: 60vw;
         box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
     }
 
