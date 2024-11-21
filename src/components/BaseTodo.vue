@@ -47,6 +47,8 @@ export default {
     <div class="loading" v-if="store.isLoading">Loading todos....</div>
 
     <div class="header">
+        <img class="header-img" alt="vue logo" src="../assets/vue-logo.svg"/>
+
         <p>You have {{ store.totalTodos }} left to do.</p>
 
         <div class="input-container">
@@ -138,6 +140,10 @@ p {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.header-img {
+    height: 100px;
 }
 
 .completed {
