@@ -58,12 +58,12 @@ export default {
     </div>
 
 
-    <div v-if="store.todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent
+    <div v-if="store.todos.length" class="todo-container" @drop="store.onDrop(todoIndex)" @dragenter.prevent
         @dragover.prevent>
         <div v-for="todo, todoIndex in store.todos" :class="[
             todo.tag + '-tag',
             { todo }
-        ]" draggable="true" @dragstart="startDrag($event, todoIndex)" :key="'todo' + todoIndex">
+        ]" draggable="true" @dragstart="store.startDrag($event, todoIndex)" :key="'todo' + todoIndex">
             <label :class="{ 'completed': todo.completed }">
                 <input type="checkbox" v-model="todo.completed" @change="store.markTodoDone($event)">
                 {{ todo.name }}
@@ -101,7 +101,7 @@ export default {
         height: 1.2rem;
         width: 1.2rem;
     }
-    
+
     button {
         transition: 0.3s;
         cursor: pointer;
