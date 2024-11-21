@@ -4,7 +4,6 @@
 }
 
 #app {
-    background-color: #efefef;
     padding: 1rem;
     margin: -1rem;
     height: 100vh;
@@ -23,4 +22,16 @@ button {
     border-radius: 2rem;
     padding: .8em;
     border: none;
+}
+
+.light-mode {
+    background-color: #efefef;
+}
+
+.dark-mode {
+    background-color: #18232c;
+}
+
+.dark-mode p {
+    color: #efefef
 }

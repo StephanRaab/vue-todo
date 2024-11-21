@@ -37,7 +37,9 @@ export default {
 
 <template>
     <nav>
-        <button class="filter-btn" @click="store.filterFavs">Toggle Favs</button>
+        <button class="dark-btn" @click="store.filterFavs">Toggle Favs</button>
+        <button v-if="store.darkmode" class="darkmode dark-btn" @click="store.toggleDarkmode">☀️</button>
+        <button v-else="store.darkmode" class="lightmode dark-btn" @click="store.toggleDarkmode">🌙</button>
     </nav>
 
     <!-- loading -->
@@ -51,6 +53,7 @@ export default {
             <button class="green-btn" @click="store.addTodo">Add Todo</button>
         </div>
     </div>
+
 
     <div v-if="store.todos.length" class="todo-container" @drop="onDrop(todoIndex)" @dragenter.prevent
         @dragover.prevent>
@@ -110,7 +113,7 @@ p {
     font-size: 1.5rem;
 }
 
-.filter-btn {
+.dark-btn {
     background-color: #18232c;
     padding: .8em;
     text-transform: uppercase;
@@ -119,7 +122,7 @@ p {
     color: #ffffff;
 }
 
-.filter-btn:hover {
+.dark-btn:hover {
     background-color: #465f78;
 }
 
