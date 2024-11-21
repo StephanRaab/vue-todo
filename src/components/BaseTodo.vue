@@ -137,6 +137,7 @@ input[type='checkbox'], input[type='radio'] {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: auto;
 }
 
 .todo-container {

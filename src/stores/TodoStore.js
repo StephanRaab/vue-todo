@@ -47,26 +47,31 @@ export const useTodoStore = defineStore('todoStore', {
             this.totalTodos = this.totalTodos + 1
             this.setLocalTodoStore()      
         },
-        deleteTodo(index) {
+        deleteTodo(index) {            
+            // if todo is NOT completed and total todos more than 0, decrease
+            if (!this.todos[index].completed && this.totalTodos > 0) {
+                this.totalTodos = this.totalTodos - 1
+            }
+
             this.todos.splice(index, 1) //the second argument here specifies how many elements to remove
-            this.totalTodos = this.totalTodos - 1
             this.setLocalTodoStore()
         },
         markTodoDone(event) {
-            if (event.srcElement.checked) {
+            if (event.srcElement.checked && this.totalTodos > 0) {
                 this.totalTodos = this.totalTodos - 1
             } else {
                 this.totalTodos = this.totalTodos + 1
             }
             this.setLocalTodoStore()      
         },
-        tagTodo(index) {
+        tagTodo() {
             this.setLocalTodoStore()
         },
         startDrag(event, index) {
             this.draggingIndex = index
             event.dataTransfer.effectAllowed = 'move';
             event.dataTransfer.setData('text/plain', index);
+            this.setLocalTodoStore()
         },
         onDrop(targetIndex) {
             if (this.draggingIndex !== null) {
@@ -74,6 +79,7 @@ export const useTodoStore = defineStore('todoStore', {
                 this.todos.splice(this.draggingIndex, 1);
                 this.todos.splice(targetIndex, 0, draggedItem);
                 this.draggingIndex = null;
+                this.setLocalTodoStore()
             }
         },
         filterFavs() {
@@ -86,7 +92,7 @@ export const useTodoStore = defineStore('todoStore', {
                 this.todos = this.todoBackup
             }                
         },
-        toggleFav(index) {
+        toggleFav(index) {            
             this.todos[index].isFavorite = !this.todos[index].isFavorite
             this.setLocalTodoStore()
         },
