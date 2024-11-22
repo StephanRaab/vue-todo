@@ -40,7 +40,7 @@ export default {
     <nav>
         <button class="dark-btn" @click="store.filterFavs">Toggle Favs</button>
         <button v-if="store.darkmode" class="darkmode dark-btn" @click="store.toggleDarkmode">☀️</button>
-        <button v-else="store.darkmode" class="lightmode dark-btn" @click="store.toggleDarkmode">🌙</button>
+        <button v-else class="lightmode dark-btn" @click="store.toggleDarkmode">🌙</button>
     </nav>
 
     <!-- loading -->
@@ -168,7 +168,7 @@ export default {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        width: 60vw;
+        width: 70vw;
         box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.25);
     }
 
