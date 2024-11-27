@@ -52,7 +52,7 @@ export default {
         <p>You have {{ store.totalTodos }} left to do.</p>
 
         <div class="input-container">
-            <input type="text" @keyup.enter="store.addTodo" placeholder="add todos..." v-model="store.todoInput">
+            <input type="text" @keyup.enter="store.addTodo" placeholder="add todos..." v-model.trim="store.todoInput">
             <button class="green-btn" @click="store.addTodo">Add Todo</button>
         </div>
     </div>

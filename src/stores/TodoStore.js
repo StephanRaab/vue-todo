@@ -49,7 +49,7 @@ export const useTodoStore = defineStore('todoStore', {
         },
         // actions are called methods in the component
         addTodo() {
-            const input = this.todoInput.trim();
+            const input = this.todoInput;
 
             if (input === '') {
                 return
