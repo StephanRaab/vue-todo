@@ -1,37 +1,15 @@
 <script>
-import { mapStores } from 'pinia';
-import { useTodoStore } from '../stores/TodoStore';
+import { useTodoStore } from '../stores/TodoStore'; 
 
-// ~~1. add whatever is in the input to the todolist~~
-// ~~2. do the same thing when hitting enter or the button~~
-// ~~3. show todos in list on the screen~~
-// ~~4. todos have state uncompleted|completed( completed will be greyed out and crossed through)~~
-// ~~5. todo can be deleted, removed from the todolist~~
-// 6. you can add a due date to a todo
-// ~~7. you can tag a todo with a color~~
-// ~~8. make todos draggable/change order~~
-// ~~9. don't allow duplicates~~
-// ~~10. add todo to favs~~
-// ~~11. toggle show favs~~
-// ~~12. add pinia~~
-// ~~13. convert app to use pinia store pattern)~~
-// 14. when item is completed, it should go to the bottom of the list
-// ~~15. use localstorage~~
-
-export default {
-    data() {
-        return {
-            store: useTodoStore()
+export default {    
+    computed: {
+        store: function() {
+            return useTodoStore()
         }
     },
-    computed: {
-        ...mapStores(useTodoStore)
-    },
-    created() {
-        // run pinia action to load localstorage into state  
-        const todoStore = useTodoStore();
-        todoStore.getLocalStoredTodos();
-        todoStore.checkTheme();
+    created() {        
+        this.store.getLocalStoredTodos();
+        this.store.checkTheme()
     }
 }
 </script>
